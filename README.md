@@ -1,2 +1,2 @@
 # QT
-easy item with QT
+this is my QT notebook
