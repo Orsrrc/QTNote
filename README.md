@@ -1,2 +1,2 @@
 # QT
-this is my QT notebook
+This is my QT notebook
