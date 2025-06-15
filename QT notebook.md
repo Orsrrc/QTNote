@@ -96,8 +96,93 @@ Ctrl + I 垂直布局
   - 调试工具不如 MSVC 强大。
   - 性能可能略低于 MSVC。
 
+## QMainWindow  VS QWidget
+
+### **1. 功能定位**
+
+- **QMainWindow**
+  - **专为主窗口设计**，提供标准的应用程序主窗口框架，内置菜单栏、工具栏、状态栏、停靠窗口（Dock Widgets）和中央部件（Central Widget）的布局管理。
+  - 适合作为应用程序的顶层窗口（如 IDE、文本编辑器等复杂界面）。
+  - 默认有预设的布局结构，开发者只需填充内容即可。
+- **QWidget**
+  - **基础窗口类**，是所有用户界面对象的基类（包括 `QMainWindow`）。
+  - 作为空白画布，需要手动实现布局和功能（如添加菜单栏需自定义）。
+  - 适合简单对话框、子窗口或自定义控件。
+
+------
+
+### **2. 内置组件**
+
+- QMainWindow
+
+   包含以下预置区域：
+
+  ```cpp
+  setMenuBar(QMenuBar*)    // 菜单栏
+  addToolBar(QToolBar*)    // 工具栏
+  setStatusBar(QStatusBar*) // 状态栏
+  setCentralWidget(QWidget*) // 中央部件
+  addDockWidget(Qt::DockWidgetArea, QDockWidget*) // 停靠窗口
+  ```
+
+- **QWidget** **没有内置组件，所有界面元素需手动添加和布局。**
+
+------
+
+### **3. 使用场景**
+
+- **QMainWindow**
+
+  ```cpp
+  QMainWindow window;
+  window.setWindowTitle("Main Window");
+  QTextEdit *editor = new QTextEdit(&window);
+  window.setCentralWidget(editor); // 设置中央部件
+  window.show();
+  ```
+
+  - 适用于需要标准界面结构的应用。
+
+- **QWidget**
+
+  ```cpp
+  QWidget widget;
+  QVBoxLayout *layout = new QVBoxLayout(&widget);
+  layout->addWidget(new QPushButton("Button"));
+  widget.setWindowTitle("Simple Widget");
+  widget.show();
+  ```
+
+  - 适用于自定义弹窗、工具窗口或嵌入式部件。
+
+------
+
+### **4. 继承关系**
+
+- `QMainWindow` 继承自 `QWidget`，因此拥有其所有功能，但扩展了主窗口特有的特性。
+
+------
+
+### **5. 何时选择？**
+
+- 选择 **QMainWindow**：
+  需要菜单、工具栏、状态栏等标准主窗口功能时。
+- 选择 **QWidget**：
+  开发简单窗口、自定义控件或子部件时。
+
+tips:
+
+​	如果需要将创建的类从QMainWindow变为QWidget 在未使用QMainWinow内置的控件的情况下可以将cpp中的继承父类改为QWidget，**若有ui文件，需要在外部修改其json代码中的QMainWidget变为QWidget**（在debug部分修改任何的ui文件，在编译时都会按照设计中的ui文件来修改代码）
+
 # QT框架学习 
 
+
+
+<img src="D:/Admin/Documents/GitHub/QTNote/QT%20notebook.assets/QT%E7%AC%AC%E4%B8%80%E7%AB%A0.png" alt="QT第一章" />
+
+
+
+```C++
 #include<iostream>
 #include<QDebug>
 QPushButton * btn(对象名) = new QPushButton (新的对象)
@@ -107,6 +192,7 @@ btn.show();
 btn.setParent(this);
 btn.move(int x, int y);//x轴坐标 y轴坐标
 Widget.Fixedresize(int w， int h);//宽度weight、高度height
+```
 
             QCreater
             /
